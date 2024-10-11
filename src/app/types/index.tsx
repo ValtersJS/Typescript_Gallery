@@ -1,9 +1,11 @@
 export interface ArtObject {
-  artObjects: {
-    id: string;
-    title: string;
-    webImage: {
-      url: string;
-    };
+  id: string;
+  title: string;
+  webImage: {
+    url: string;
   };
+}
+
+export interface ArtResponse {
+  artObjects: ArtObject[];
 }
