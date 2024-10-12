@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getArt } from "../api/service";
 import { ArtPieceView } from "./ArtPiece";
-import { ArtObject, ArtResponse } from "../types";
+import { ArtObject } from "../types";
 import { Button } from "./Button";
 
 const Gallery: React.FC = () => {
@@ -16,18 +16,39 @@ const Gallery: React.FC = () => {
   const [currentArt, setCurrentArt] = useState<ArtObject[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasFetchedMore, setHasFetchedMore] = useState(false);
 
+  // initial minimal fetch for only currently needed art pieces
   useEffect(() => {
-    getArtworks();
+    getArtworks("3");
   }, []);
 
-  // for secondary fetch after initial 3 art pieces
-  useEffect(() => {});
+  // sets initial art pieces and fetches more for shuffle in the background once.
+  useEffect(() => {
+    if (artworks.length > 0 && !hasFetchedMore) {
+      setCurrentArt(artworks);
+      getArtworks("12");
+      // prevent effect running more than once
+      setHasFetchedMore(true);
+    }
+  }, [artworks, hasFetchedMore]);
 
-  const getArtworks = async () => {
+  // shuffle logic
+  const getRandomItems = (array: ArtObject[], count: number) => {
+    const randomIndexes: number[] = [];
+    while (randomIndexes.length < count) {
+      const randomIndex = Math.floor(Math.random() * array.length);
+      if (!randomIndexes.includes(randomIndex)) {
+        randomIndexes.push(randomIndex);
+      }
+    }
+    return randomIndexes.map((index) => array[index]);
+  };
+
+  const getArtworks = async (count: string) => {
     try {
       setIsLoading(true);
-      const { data, error } = await getArt();
+      const { data, error } = await getArt(count);
       if (error) throw new Error(error);
       setArtworks(data?.artObjects || []);
     } catch (error) {
@@ -41,18 +62,17 @@ const Gallery: React.FC = () => {
   };
 
   const handleClick = () => {
-    getArtworks();
+    setCurrentArt(getRandomItems(artworks, 3));
   };
 
   return (
     <div className="art-container flex content-center items-stretch place-content-center bg-blue-500">
       {/* // check for empty */}
-      {artworks.slice(0, 3).map((art) => (
-        <div className="bg-green-50 place-content-center">
-          <ArtPieceView key={art.id} art={art} />
+      {currentArt.map((art) => (
+        <div key={art.id} className="bg-green-50 place-content-center">
+          <ArtPieceView art={art} />
         </div>
       )) || <div>No artworks</div>}
-
       <Button handleClick={handleClick} />
     </div>
   );

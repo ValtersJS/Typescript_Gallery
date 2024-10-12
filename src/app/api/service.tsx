@@ -22,9 +22,11 @@ async function fetchData<T>(
   }
 }
 
-export const getArt = async (): Promise<{
+export const getArt = async (
+  imgCount: string
+): Promise<{
   data: ArtResponse | null;
   error: string | null;
 }> => {
-  return fetchData<ArtResponse>(`?key=${API_KEY}&ps=4&imgonly=true`);
+  return fetchData<ArtResponse>(`?key=${API_KEY}&ps=${imgCount}&imgonly=true`);
 };
