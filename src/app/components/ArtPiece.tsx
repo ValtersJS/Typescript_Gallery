@@ -11,11 +11,11 @@ import { useArtContext } from "../context/ArtProvider";
 
 export const ArtPieceView: React.FC<ArtPieceViewProps> = ({ art }) => {
   const router = useRouter();
-  const { selectedArt, setSelectedArt } = useArtContext();
+  const { setSelectedArt } = useArtContext();
 
   const handleClick = () => {
     setSelectedArt(art);
-    router.push(`art/${art.id}`);
+    router.push(`/art/${art.id}`);
   };
 
   return (

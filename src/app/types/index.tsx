@@ -6,6 +6,11 @@ export interface ArtObject {
   };
 }
 
+export interface SpecifiedArt {
+  url: string;
+  description: string;
+}
+
 export interface ArtResponse {
   artObjects: ArtObject[];
 }
