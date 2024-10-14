@@ -24,6 +24,7 @@ const ArtPieceDescrption: React.FC<ArtPieceDetailsProps> = ({
       <div className="art-piece p-4 w-full">
         <Image
           src={artWork.webImage.url}
+          priority
           width={500}
           height={500}
           alt={artWork.title}
