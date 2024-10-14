@@ -1,8 +1,9 @@
-import { ArtObject, ArtResponse, SpecifiedArt } from "../types";
+import { ArtResponse, SpecifiedArt } from "../types";
 
-const API_KEY = "ZWRoomdB";
-const BASE_URL = "https://www.rijksmuseum.nl/api/en/collection";
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+// main fetch logic
 async function fetchData<T>(
   url: string
 ): Promise<{ data: T | null; error: string | null }> {
@@ -22,6 +23,7 @@ async function fetchData<T>(
   }
 }
 
+// for Gallery
 export const getArt = async (
   imgCount: string
 ): Promise<{
@@ -31,6 +33,7 @@ export const getArt = async (
   return fetchData<ArtResponse>(`?key=${API_KEY}&ps=${imgCount}&imgonly=true`);
 };
 
+// for art description page
 export const getSpecifedArt = async (
   objNumber: string
 ): Promise<{

@@ -1,49 +1,54 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { getSpecifedArt } from "@/app/api/service";
 import { useArtContext } from "@/app/context/ArtProvider";
-import { ArtObject } from "@/app/types";
+import { SpecifiedArt } from "@/app/types";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import LoadingError from "@/app/components/LoadingError";
+import ArtPieceDescrption from "@/app/components/ArtPieceDescription";
 
 const ArtPiece: React.FC<{ params: { id: string } }> = ({ params }) => {
+  // unnecessary context
   const { selectedArt } = useArtContext();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
   const objNumberFromPath = params.id.replace(/^en-/, "");
-  console.log(objNumberFromPath);
 
-  const [artWork, setArtwork] = useState(selectedArt);
+  const [artWork, setArtwork] = useState<SpecifiedArt | null>(null);
 
   useEffect(() => {
     const fetchArtwork = async () => {
-      if (objNumberFromPath) {
-        console.log("data.artObject");
-        try {
+      setIsLoading(true);
+      setError(null);
+      try {
+        // always runs fetch
+        if (objNumberFromPath) {
           const { data } = await getSpecifedArt(objNumberFromPath);
-          setArtwork(data?.artObject);
-        } catch (err) {
-          console.log(err);
+          setArtwork(data?.artObject || null);
+
+          // unnecessary optimization with context due to api endpoint restrictions
+        } else {
+          setArtwork(selectedArt || null);
+          console.log(selectedArt);
         }
-      } else {
-        setArtwork(selectedArt);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load artwork.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchArtwork();
-  }, [objNumberFromPath]);
+  }, [objNumberFromPath, selectedArt]);
 
   return (
-    <div className="art-piece p-4 max-w-xs" id={artWork?.id}>
-      <img
-        src={artWork?.webImage.url}
-        // width={500}
-        // height={300}
-        // layout="responsive"
-        alt={artWork?.title}
-        // placeholder="blur"
-        className="w-full h-auto object-cover rounded-lg shadow-md"
-      />
-    </div>
-    // <div>hello</div>
+    <>
+      <LoadingError isLoading={isLoading} error={error} />
+      <ArtPieceDescrption artWork={artWork} router={router} />
+    </>
   );
 };
 

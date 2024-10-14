@@ -1,3 +1,4 @@
+// type for objects in ArtResponse
 export interface ArtObject {
   id: string;
   title: string;
@@ -6,11 +7,16 @@ export interface ArtObject {
   };
 }
 
+// description fetch type
 export interface SpecifiedArt {
-  url: string;
-  description: string;
+  artObject: {
+    url: string;
+    title: string;
+    plaqueDescriptionEnglish: string;
+  };
 }
 
+// fetch type
 export interface ArtResponse {
   artObjects: ArtObject[];
 }
