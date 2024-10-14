@@ -32,7 +32,7 @@ export const ArtPieceView: React.FC<ArtPieceViewProps> = ({ art }) => {
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNcWQ8AAdcBKrJda2oAAAAASUVORK5CYII="
       />
-      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100">
+      <div className="absolute inset-4 text-center flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 hover:opacity-100">
         <span className="text-white text-lg font-serif font-bold">
           {art.title}
         </span>

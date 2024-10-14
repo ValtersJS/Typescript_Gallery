@@ -55,7 +55,7 @@ const Gallery: React.FC = () => {
       <div
         key={art.id}
         id={art.id}
-        className="flex justify-center p-4 w-full sm:w-1/2 md:w-1/2 lg:w-1/4 transition duration-500 ease-in-out"
+        className="flex justify-center p-4 w-full sm:w-1/2 md:w-1/2 lg:w-1/4 transition duration-500 ease-in-out hover:scale-110 overflow-hidden"
       >
         <ArtPieceView art={art} />
       </div>
@@ -64,7 +64,7 @@ const Gallery: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="art-container flex flex-wrap justify-center items-center w-full mx-auto mb-16">
+      <div className="art-container overflow-hidden flex flex-wrap justify-center items-center w-full mx-auto mb-16">
         {isLoading ? (
           <Spinner />
         ) : error ? (
