@@ -1,4 +1,4 @@
-# Tietoevery Web Developer test task by Valters Sakarnis
+# Gallery in Typescript
 
 Next.js, Typescript, Tailwind
 
@@ -9,7 +9,7 @@ Next.js, Typescript, Tailwind
 >
 > npm run dev
 >
-> Open <http://localhost:3000>
+> <http://localhost:3000>
 
 
 
